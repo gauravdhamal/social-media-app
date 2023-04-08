@@ -1,10 +1,6 @@
 package com.social.media.models;
 
-import java.time.LocalDateTime;
-
 import org.hibernate.envers.Audited;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-public class Post {
+public class Post extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,12 +30,6 @@ public class Post {
 
 	@Size(min = 1, max = 300)
 	private String content;
-
-	@CreatedDate
-	private LocalDateTime created_at;
-
-	@LastModifiedDate
-	private LocalDateTime updated_at;
 
 	@Min(value = 0)
 	private Integer likes;

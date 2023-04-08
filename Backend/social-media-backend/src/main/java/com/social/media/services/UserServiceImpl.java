@@ -38,11 +38,11 @@ public class UserServiceImpl implements UserService {
 	public UserDTO updateUserById(Integer userId, UserDTO userDTO) throws NoRecordFoundException {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new NoRecordFoundException("User not found with Id : " + userId));
-		if (user.getName() != null) {
-			user.setName(user.getName());
+		if (userDTO.getName() != null) {
+			user.setName(userDTO.getName());
 		}
-		if (user.getBio() != null) {
-			user.setBio(user.getBio());
+		if (userDTO.getBio() != null) {
+			user.setBio(userDTO.getBio());
 		}
 		user = userRepository.save(user);
 		userDTO = modelMapper.map(user, UserDTO.class);

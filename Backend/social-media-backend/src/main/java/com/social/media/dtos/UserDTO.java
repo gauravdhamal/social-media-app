@@ -2,9 +2,6 @@ package com.social.media.dtos;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -33,13 +30,9 @@ public class UserDTO {
 	@Size(min = 0, max = 200, message = "Bio might be empty or contains at max 200 characters.")
 	private String bio;
 
-	@Column(insertable = false)
-	@CreatedDate
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private LocalDateTime created_at;
 
-	@Column(insertable = false)
-	@LastModifiedDate
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private LocalDateTime updated_at;
 

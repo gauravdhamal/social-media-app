@@ -38,8 +38,8 @@ public class PostServiceImpl implements PostService {
 	public PostDTO updatePostById(Integer postId, PostDTO postDTO) throws NoRecordFoundException {
 		Post post = postRepository.findById(postId)
 				.orElseThrow(() -> new NoRecordFoundException("Post not found with Id : " + postId));
-		if (post.getContent() != null) {
-			post.setContent(post.getContent());
+		if (postDTO.getContent() != null) {
+			post.setContent(postDTO.getContent());
 		}
 		post = postRepository.save(post);
 		postDTO = modelMapper.map(post, PostDTO.class);
