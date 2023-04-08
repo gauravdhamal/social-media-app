@@ -1,9 +1,14 @@
 package com.social.media.services;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.social.media.comparators.PostComparator;
 import com.social.media.dtos.PostDTO;
 import com.social.media.exceptions.NoRecordFoundException;
 import com.social.media.models.Post;
@@ -96,6 +101,41 @@ public class PostServiceImpl implements PostService {
 			post.setLikes(post.getLikes() - 1);
 			post = postRepository.save(post);
 			return "Likes decremented by 1. Total likes : " + post.getLikes();
+		}
+	}
+
+	@Override
+	public List<PostDTO> getAllPosts() throws NoRecordFoundException {
+		List<Post> posts = postRepository.findAll();
+		if (posts.isEmpty()) {
+			throw new NoRecordFoundException("No any posts found in database.");
+		} else {
+			List<PostDTO> postDTOs = new ArrayList<>();
+			for (Post post : posts) {
+				PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+				postDTOs.add(postDTO);
+			}
+			return postDTOs;
+		}
+	}
+
+	@Override
+	public List<PostDTO> getTopMostLikedPost() throws NoRecordFoundException {
+		List<Post> posts = postRepository.findAll();
+		if (posts.isEmpty()) {
+			throw new NoRecordFoundException("No any posts found in database.");
+		} else {
+			Collections.sort(posts, new PostComparator());
+			int limit = 5;
+			List<PostDTO> postDTOs = new ArrayList<>();
+			for (Post post : posts) {
+				if (limit == 0)
+					break;
+				PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+				postDTOs.add(postDTO);
+				limit--;
+			}
+			return postDTOs;
 		}
 	}
 

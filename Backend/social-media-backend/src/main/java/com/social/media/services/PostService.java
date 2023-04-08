@@ -1,5 +1,7 @@
 package com.social.media.services;
 
+import java.util.List;
+
 import com.social.media.dtos.PostDTO;
 import com.social.media.exceptions.NoRecordFoundException;
 
@@ -69,5 +71,23 @@ public interface PostService {
 	 *                                 NoRecordFoundException.
 	 */
 	public String decrementLikesByPostId(Integer postId) throws NoRecordFoundException;
+
+	/**
+	 * 
+	 * @return: It return List<PostDTO> which contains all posts available inside
+	 *          database.
+	 * @throws NoRecordFoundException: If no any post found then will throw
+	 *                                 NoRecordFoundException.
+	 */
+	public List<PostDTO> getAllPosts() throws NoRecordFoundException;
+
+	/**
+	 * 
+	 * @return: It return List<PostDTO> which having most likes than other Post.
+	 *          database.
+	 * @throws NoRecordFoundException: If no any post found then will throw
+	 *                                 NoRecordFoundException.
+	 */
+	public List<PostDTO> getTopMostLikedPost() throws NoRecordFoundException;
 
 }

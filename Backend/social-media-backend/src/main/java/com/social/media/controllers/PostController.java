@@ -55,4 +55,18 @@ public class PostController {
 		return new ResponseEntity<String>(message, HttpStatus.ACCEPTED);
 	}
 
+	@PostMapping("/posts/{postId}/like")
+	public ResponseEntity<String> incrementLikesByPostId(@PathVariable("postId") Integer postId)
+			throws NoRecordFoundException {
+		String message = postService.incrementLikesByPostId(postId);
+		return new ResponseEntity<String>(message, HttpStatus.ACCEPTED);
+	}
+
+	@PostMapping("/posts/{postId}/unlike")
+	public ResponseEntity<String> decrementLikesByPostId(@PathVariable("postId") Integer postId)
+			throws NoRecordFoundException {
+		String message = postService.decrementLikesByPostId(postId);
+		return new ResponseEntity<String>(message, HttpStatus.ACCEPTED);
+	}
+
 }
