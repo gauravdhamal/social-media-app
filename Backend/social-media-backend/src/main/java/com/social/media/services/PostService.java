@@ -52,4 +52,22 @@ public interface PostService {
 	 */
 	public String assignPostToUser(Integer postId, Integer userId) throws NoRecordFoundException;
 
+	/**
+	 * 
+	 * @param postId: To find the post from database.
+	 * @return: It will return String message about incremented likes.
+	 * @throws NoRecordFoundException: If no any post found then will throw
+	 *                                 NoRecordFoundException.
+	 */
+	public String incrementLikesByPostId(Integer postId) throws NoRecordFoundException;
+
+	/**
+	 * 
+	 * @param postId: To find the post from database.
+	 * @return: It will return String message about decremented likes.
+	 * @throws NoRecordFoundException: If no any post found then will throw
+	 *                                 NoRecordFoundException.
+	 */
+	public String decrementLikesByPostId(Integer postId) throws NoRecordFoundException;
+
 }

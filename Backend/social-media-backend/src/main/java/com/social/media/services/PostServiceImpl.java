@@ -77,4 +77,26 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 
+	@Override
+	public String incrementLikesByPostId(Integer postId) throws NoRecordFoundException {
+		Post post = postRepository.findById(postId)
+				.orElseThrow(() -> new NoRecordFoundException("Post not found with Id : " + postId));
+		post.setLikes(post.getLikes() + 1);
+		post = postRepository.save(post);
+		return "Likes incremented by 1. Total likes : " + post.getLikes();
+	}
+
+	@Override
+	public String decrementLikesByPostId(Integer postId) throws NoRecordFoundException {
+		Post post = postRepository.findById(postId)
+				.orElseThrow(() -> new NoRecordFoundException("Post not found with Id : " + postId));
+		if (post.getLikes() == 0) {
+			throw new NoRecordFoundException("Not able to decrease likes as currently there are 0 likes.");
+		} else {
+			post.setLikes(post.getLikes() - 1);
+			post = postRepository.save(post);
+			return "Likes decremented by 1. Total likes : " + post.getLikes();
+		}
+	}
+
 }

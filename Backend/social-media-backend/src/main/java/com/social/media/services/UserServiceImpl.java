@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.social.media.comparators.UserComparator;
 import com.social.media.dtos.UserDTO;
 import com.social.media.exceptions.NoRecordFoundException;
+import com.social.media.models.Post;
 import com.social.media.models.User;
+import com.social.media.repositories.PostRepository;
 import com.social.media.repositories.UserRepository;
 
 @Service
@@ -19,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private PostRepository postRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -58,6 +63,12 @@ public class UserServiceImpl implements UserService {
 	public String deleteUserById(Integer userId) throws NoRecordFoundException {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new NoRecordFoundException("User not found with Id : " + userId));
+		if (!user.getPosts().isEmpty()) {
+			for (Post post : user.getPosts()) {
+				post.setUser(null);
+				postRepository.save(post);
+			}
+		}
 		userRepository.delete(user);
 		return "User " + userId + " deleted from database.";
 	}
@@ -85,9 +96,13 @@ public class UserServiceImpl implements UserService {
 		} else {
 			Collections.sort(users, new UserComparator());
 			List<UserDTO> userDTOs = new ArrayList<>();
+			int limit = 5;
 			for (User user : users) {
+				if (limit == 0)
+					break;
 				UserDTO userDTO = modelMapper.map(user, UserDTO.class);
 				userDTOs.add(userDTO);
+				limit--;
 			}
 			return userDTOs;
 		}
