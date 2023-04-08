@@ -2,12 +2,14 @@ package com.social.media.services;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.social.media.dtos.PostDTO;
 import com.social.media.exceptions.NoRecordFoundException;
 import com.social.media.models.Post;
 import com.social.media.repositories.PostRepository;
 
+@Service
 public class PostServiceImpl implements PostService {
 
 	@Autowired
