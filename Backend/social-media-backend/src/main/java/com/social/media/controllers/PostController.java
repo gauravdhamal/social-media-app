@@ -1,5 +1,7 @@
 package com.social.media.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +69,18 @@ public class PostController {
 			throws NoRecordFoundException {
 		String message = postService.decrementLikesByPostId(postId);
 		return new ResponseEntity<String>(message, HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping("/analytics/posts")
+	public ResponseEntity<List<PostDTO>> getAllPosts() throws NoRecordFoundException {
+		List<PostDTO> postDTOs = postService.getAllPosts();
+		return new ResponseEntity<List<PostDTO>>(postDTOs, HttpStatus.OK);
+	}
+
+	@GetMapping("//analytics/posts/top-liked")
+	public ResponseEntity<List<PostDTO>> getTopMostLikedPost() throws NoRecordFoundException {
+		List<PostDTO> postDTOs = postService.getTopMostLikedPost();
+		return new ResponseEntity<List<PostDTO>>(postDTOs, HttpStatus.OK);
 	}
 
 }
