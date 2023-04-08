@@ -42,4 +42,14 @@ public interface PostService {
 	 */
 	public String deletePostById(Integer postId) throws NoRecordFoundException;
 
+	/**
+	 * 
+	 * @param postId: To get the post from database.
+	 * @param userId: To get the user from database.
+	 * @return: It will return String message about the information about operation.
+	 * @throws NoRecordFoundException: if no Post/User found in database then will
+	 *                                 throw a NoRecordFoundException.
+	 */
+	public String assignPostToUser(Integer postId, Integer userId) throws NoRecordFoundException;
+
 }
