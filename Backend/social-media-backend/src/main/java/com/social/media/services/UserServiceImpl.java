@@ -1,9 +1,14 @@
 package com.social.media.services;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.social.media.comparators.UserComparator;
 import com.social.media.dtos.UserDTO;
 import com.social.media.exceptions.NoRecordFoundException;
 import com.social.media.models.User;
@@ -54,7 +59,38 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new NoRecordFoundException("User not found with Id : " + userId));
 		userRepository.delete(user);
-		return "User +" + userId + "+ deleted from database.";
+		return "User " + userId + " deleted from database.";
+	}
+
+	@Override
+	public List<UserDTO> getAllUsers() throws NoRecordFoundException {
+		List<User> users = userRepository.findAll();
+		if (users.isEmpty()) {
+			throw new NoRecordFoundException("No any users found in database.");
+		} else {
+			List<UserDTO> userDTOs = new ArrayList<>();
+			for (User user : users) {
+				UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+				userDTOs.add(userDTO);
+			}
+			return userDTOs;
+		}
+	}
+
+	@Override
+	public List<UserDTO> getTopFiveMostActiveUsers() throws NoRecordFoundException {
+		List<User> users = userRepository.findAll();
+		if (users.isEmpty()) {
+			throw new NoRecordFoundException("No any users found in database.");
+		} else {
+			Collections.sort(users, new UserComparator());
+			List<UserDTO> userDTOs = new ArrayList<>();
+			for (User user : users) {
+				UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+				userDTOs.add(userDTO);
+			}
+			return userDTOs;
+		}
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.social.media.services;
 
+import java.util.List;
+
 import com.social.media.dtos.UserDTO;
 import com.social.media.exceptions.NoRecordFoundException;
 
@@ -42,5 +44,22 @@ public interface UserService {
 	 *                                 throw NoRecordFoundException.
 	 */
 	public String deleteUserById(Integer userId) throws NoRecordFoundException;
+
+	/**
+	 * 
+	 * @return: It will return the all users as a List<UserDTO> present in database.
+	 * @throws NoRecordFoundException: if no any user found then will throw
+	 *                                 NoRecordFoundException.
+	 */
+	public List<UserDTO> getAllUsers() throws NoRecordFoundException;
+
+	/**
+	 * 
+	 * @return: It will return the List of users which contains top five users
+	 *          according to Post created.
+	 * @throws NoRecordFoundException: if no any user found then will throw
+	 *                                 NoRecordFoundException.
+	 */
+	public List<UserDTO> getTopFiveMostActiveUsers() throws NoRecordFoundException;
 
 }
