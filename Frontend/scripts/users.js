@@ -163,8 +163,35 @@ let commonUrl = "http://localhost:8888/";
       deleteButton.textContent = "Delete";
       actionCell.append(editButton, " / ", deleteButton);
       row.appendChild(actionCell);
+      editButton.addEventListener("click", () => {
+        console.log("Edit button clicked");
+      });
+
+      deleteButton.addEventListener("click", () => {
+        let userId = idCell.textContent;
+        deleteUserById(userId).then((message) => {
+          console.log("message:", message);
+          window.alert(message);
+          main();
+        });
+      });
 
       userTableBody.appendChild(row);
     });
   };
+
+  async function deleteUserById(userId) {
+    let response = await fetch(commonUrl + `users/${userId}`, {
+      method: "DELETE",
+    });
+    if (response.status == 200) {
+      let data = await response.text();
+      return data;
+    } else {
+      let data = await response.json();
+      window.alert(data.details);
+    }
+  }
+
+  async function getAllPostsByUserId(userId) {}
 }
