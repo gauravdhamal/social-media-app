@@ -6,64 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/index.css" />
     <link rel="stylesheet" href="styles/navbar.css" />
-    <title>Post analytics</title>
+    <title>User Analytics</title>
     <style>
-      #mainContent {
-        box-sizing: border-box;
-        padding: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        /* border: 1px solid rebeccapurple; */
-        background-color: rgb(144, 155, 113);
-      }
-
-      #mainContent button {
-        box-sizing: border-box;
-        padding: 10px 25px;
-        border-radius: 50px;
-        font-size: 20px;
-        border: 1px solid gray;
-        cursor: pointer;
-        background-color: black;
-        color: white;
+      #topFivePosts,
+      #getAllPosts {
+        display: none;
       }
     </style>
   </head>
   <body>
     <div id="navbar"></div>
 
-    <div id="mainContent">
-      <button id="getAllUsers">Get all users</button>
-      <button id="getTopFiveMostActiveUsers">Top 5 most active users</button>
+    <div id="mainContent" class="mainContent">
+      <button id="fetchAllPostsButton">Get all Posts</button>
+      <button id="getTopFiveMostLikedPostsButton">
+        Top 5 most liked posts
+      </button>
     </div>
 
-    <div id="topFiveUsers">
+    <div id="topFivePosts">
       <table class="table">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Bio</th>
-            <th>Total Posts</th>
+            <th>Content</th>
+            <th>Likes</th>
           </tr>
         </thead>
-        <tbody id="topUserTableBody"></tbody>
+        <tbody id="topPostTableBody"></tbody>
       </table>
     </div>
 
-    <div id="allUsers">
+    <div id="getAllPosts">
       <table class="table">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Bio</th>
+            <th>Content</th>
+            <th>Likes</th>
           </tr>
         </thead>
-        <tbody id="userTableBody"></tbody>
+        <tbody id="getAllPostTableBody"></tbody>
       </table>
     </div>
   </body>

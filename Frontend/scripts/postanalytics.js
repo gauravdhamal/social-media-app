@@ -4,98 +4,91 @@ document.getElementById("navbar").innerHTML = navbar();
 
 let commonUrl = "http://localhost:8888/";
 
-let getTopFiveMostActiveUsers = document.getElementById(
-  "getTopFiveMostActiveUsers"
+let topFivePosts = document.getElementById("topFivePosts");
+let getAllPosts = document.getElementById("getAllPosts");
+
+let topFivePostsButton = document.getElementById(
+  "getTopFiveMostLikedPostsButton"
 );
+let fetchAllPostsButton = document.getElementById("fetchAllPostsButton");
 
-let topFiveUsers = document.getElementById("topFiveUsers");
-let allUsers = document.getElementById("allUsers");
-
-getTopFiveMostActiveUsers.addEventListener("click", () => {
-  allUsers.style.display = "none";
-  topFiveUsers.style.display = "block";
-  getTopFiveActiveUsers().then((users) => {
-    appendTopFiveUsers(users);
+topFivePostsButton.addEventListener("click", () => {
+  topFivePosts.style.display = "block";
+  getAllPosts.style.display = "none";
+  fetchTopFiveMostLikedPosts().then((posts) => {
+    appendTopPosts(posts);
   });
 });
 
-async function getTopFiveActiveUsers() {
-  let response = await fetch(commonUrl + `analytics/users/top-active`);
+fetchAllPostsButton.addEventListener("click", () => {
+  getAllPosts.style.display = "block";
+  topFivePosts.style.display = "none";
+  fetchAllPosts().then((posts) => {
+    appendPosts(posts);
+  });
+});
+
+async function fetchAllPosts() {
+  let response = await fetch(commonUrl + `analytics/posts`);
   let data = await response.json();
   if (response.status == 200) {
+    console.log("data:", data);
     return data;
   } else {
-    window.alert("No any user found in database.");
+    console.log(response);
   }
 }
 
-let appendTopFiveUsers = (users) => {
-  let topUserTableBody = document.getElementById("topUserTableBody");
-  topUserTableBody.innerHTML = "";
-  users.forEach((user) => {
+let appendPosts = (arrayOfPosts) => {
+  let getAllPostTableBody = document.getElementById("getAllPostTableBody");
+  getAllPostTableBody.innerHTML = "";
+  arrayOfPosts.forEach((post) => {
     const row = document.createElement("tr");
 
     const idCell = document.createElement("td");
-    idCell.textContent = user.id;
+    idCell.textContent = post.id;
     row.appendChild(idCell);
 
-    const nameCell = document.createElement("td");
-    nameCell.textContent = user.name;
-    row.appendChild(nameCell);
+    const contentCell = document.createElement("td");
+    contentCell.textContent = post.content;
+    row.appendChild(contentCell);
 
-    const emailCell = document.createElement("td");
-    emailCell.textContent = user.email;
-    row.appendChild(emailCell);
+    const likesCell = document.createElement("td");
+    likesCell.textContent = post.likes;
+    row.appendChild(likesCell);
 
-    const bioCell = document.createElement("td");
-    bioCell.textContent = user.bio;
-    row.appendChild(bioCell);
-
-    topUserTableBody.appendChild(row);
+    getAllPostTableBody.appendChild(row);
   });
 };
 
-let getAllUsers = document.getElementById("getAllUsers");
-
-getAllUsers.addEventListener("click", () => {
-  topFiveUsers.style.display = "none";
-  allUsers.style.display = "block";
-  fetchAllUsers().then((users) => {
-    appendUsers(users);
-  });
-});
-
-// Get all users
-async function fetchAllUsers() {
-  let response = await fetch(commonUrl + `analytics/users`);
+async function fetchTopFiveMostLikedPosts() {
+  let response = await fetch(commonUrl + `analytics/posts/top-liked`);
+  let data = response.json();
   if (response.status == 200) {
-    let data = await response.json();
     return data;
+  } else {
+    window.alert(data.details);
   }
 }
 
-let appendUsers = (arrayOfUsers) => {
-  let userTableBody = document.getElementById("userTableBody");
-  userTableBody.innerHTML = "";
-  arrayOfUsers.forEach((user) => {
+let appendTopPosts = (posts) => {
+  let topPostTableBody = document.getElementById("topPostTableBody");
+  topPostTableBody.innerHTML = "";
+  posts.forEach((post) => {
     const row = document.createElement("tr");
 
     const idCell = document.createElement("td");
-    idCell.textContent = user.id;
+    idCell.textContent = post.id;
     row.appendChild(idCell);
 
-    const nameCell = document.createElement("td");
-    nameCell.textContent = user.name;
-    row.appendChild(nameCell);
+    const contentCell = document.createElement("td");
+    contentCell.textContent = post.content;
+    row.appendChild(contentCell);
 
-    const emailCell = document.createElement("td");
-    emailCell.textContent = user.email;
-    row.appendChild(emailCell);
+    const likesCell = document.createElement("td");
+    likesCell.textContent = post.likes;
+    row.appendChild(likesCell);
 
-    const bioCell = document.createElement("td");
-    bioCell.textContent = user.bio;
-    row.appendChild(bioCell);
-
-    userTableBody.appendChild(row);
+    topPostTableBody.appendChild(row);
   });
 };

@@ -16,3 +16,28 @@ th {
   background-color: #f2f2f2;
   color: #333;
 }
+
+/* Post/User analytics page CSS start */
+
+.mainContent {
+  box-sizing: border-box;
+  padding: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  /* border: 1px solid rebeccapurple; */
+  background-color: rgb(144, 155, 113);
+}
+
+.mainContent button {
+  box-sizing: border-box;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-size: 20px;
+  border: 1px solid gray;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
+
+/* Post/User analytics page CSS end */
