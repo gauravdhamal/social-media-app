@@ -29,6 +29,7 @@ public class PostDTO {
 	private LocalDateTime updated_at;
 
 	@Min(value = 0)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer likes;
 
 }
