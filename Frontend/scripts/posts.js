@@ -168,6 +168,24 @@ let commonUrl = "http://localhost:8888/";
       deleteButton.textContent = "Delete";
       actionCell.append(editButton, " / ", deleteButton);
       row.appendChild(actionCell);
+      editButton.addEventListener("click", () => {
+        let postId = idCell.textContent;
+        getPostById(postId).then((post) => {
+          //   console.log("post:", post);
+          fillForm(post);
+        });
+      });
+
+      deleteButton.addEventListener("click", () => {
+        const confirmed = confirm("Are you sure you want to delete this item?");
+        if (confirmed) {
+          let postId = idCell.textContent;
+          deletePost(postId).then((message) => {
+            window.alert(message);
+            main();
+          });
+        }
+      });
 
       const likeUnlikeCell = document.createElement("td");
       const likeButton = document.createElement("button");
@@ -225,5 +243,39 @@ let commonUrl = "http://localhost:8888/";
       let data = await response.json();
       window.alert(data.details);
     }
+  }
+
+  async function deletePost(postId) {
+    let response = await fetch(commonUrl + `posts/${postId}`, {
+      method: "DELETE",
+    });
+    if (response.status == 202) {
+      let data = await response.text();
+      return data;
+    } else {
+      let data = await response.json();
+      if (data.description == `uri=/posts/${postId}`) {
+        window.alert(data.details);
+      }
+    }
+  }
+
+  async function getPostById(postId) {
+    let response = await fetch(commonUrl + `posts/${postId}`);
+    if (response.status == 200) {
+      let data = await response.json();
+      return data;
+    }
+  }
+
+  let dynamicPostUpdateForm = document.getElementById("dynamicPostUpdateForm");
+  let oldId = document.getElementById("oldid");
+
+  function fillForm(post) {
+    let formData = new FormData(dynamicPostUpdateForm);
+
+    let id = formData.get("id");
+    oldId.innerText = post.id;
+    console.log("oldId:", oldId);
   }
 }
