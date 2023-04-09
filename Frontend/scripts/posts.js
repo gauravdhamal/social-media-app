@@ -120,7 +120,6 @@ let commonUrl = "http://localhost:8888/";
   async function getAllPosts() {
     let response = await fetch(commonUrl + `analytics/posts`);
     let data = await response.json();
-    console.log("data:", data);
     if (response.status == 200) {
       return data;
     } else {
@@ -151,6 +150,16 @@ let commonUrl = "http://localhost:8888/";
       viewUserButton.textContent = "Get User";
       viewCell.append(viewUserButton);
       row.appendChild(viewCell);
+      viewUserButton.addEventListener("click", () => {
+        let postId = idCell.textContent;
+        getUserByPostId(postId).then((user) => {
+          if (user == undefined) {
+            window.alert(`No any user assigned to post : ${postId}`);
+          } else {
+            console.log("user:", user);
+          }
+        });
+      });
 
       const actionCell = document.createElement("td");
       const editButton = document.createElement("button");
@@ -167,8 +176,54 @@ let commonUrl = "http://localhost:8888/";
       unlikeButton.textContent = "Unlike";
       likeUnlikeCell.append(likeButton, " / ", unlikeButton);
       row.appendChild(likeUnlikeCell);
+      likeButton.addEventListener("click", () => {
+        let postId = idCell.textContent;
+        likePostById(postId).then((message) => {
+          main();
+        });
+      });
+
+      unlikeButton.addEventListener("click", () => {
+        let postId = idCell.textContent;
+        unlikePostById(postId).then((message) => {
+          main();
+        });
+      });
 
       postTableBody.appendChild(row);
     });
   };
+
+  async function getUserByPostId(postId) {
+    let response = await fetch(commonUrl + `posts/user/${postId}`);
+    if (response.status == 200) {
+      let data = await response.json();
+      return data;
+    }
+  }
+
+  async function likePostById(postId) {
+    let response = await fetch(commonUrl + `posts/${postId}/like`, {
+      method: "POST",
+    });
+    if (response.status == 202) {
+      let data = await response.text();
+      window.alert(`Post liked.`);
+      return data;
+    }
+  }
+
+  async function unlikePostById(postId) {
+    let response = await fetch(commonUrl + `posts/${postId}/unlike`, {
+      method: "POST",
+    });
+    if (response.status == 202) {
+      let data = await response.text();
+      window.alert(`Post unliked.`);
+      return data;
+    } else {
+      let data = await response.json();
+      window.alert(data.details);
+    }
+  }
 }

@@ -152,7 +152,8 @@ public class PostServiceImpl implements PostService {
 		if (post.getUser() == null) {
 			throw new NoRecordFoundException("No any user registered with post : " + postId);
 		} else {
-			UserDTO userDTO = modelMapper.map(post, UserDTO.class);
+			User user = post.getUser();
+			UserDTO userDTO = modelMapper.map(user, UserDTO.class);
 			return userDTO;
 		}
 	}
