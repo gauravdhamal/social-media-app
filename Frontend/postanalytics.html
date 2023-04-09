@@ -4,7 +4,69 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/index.css" />
+    <link rel="stylesheet" href="styles/navbar.css" />
     <title>Post analytics</title>
+    <style>
+      #mainContent {
+        box-sizing: border-box;
+        padding: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        /* border: 1px solid rebeccapurple; */
+        background-color: rgb(144, 155, 113);
+      }
+
+      #mainContent button {
+        box-sizing: border-box;
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-size: 20px;
+        border: 1px solid gray;
+        cursor: pointer;
+        background-color: black;
+        color: white;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <div id="navbar"></div>
+
+    <div id="mainContent">
+      <button id="getAllUsers">Get all users</button>
+      <button id="getTopFiveMostActiveUsers">Top 5 most active users</button>
+    </div>
+
+    <div id="topFiveUsers">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Bio</th>
+            <th>Total Posts</th>
+          </tr>
+        </thead>
+        <tbody id="topUserTableBody"></tbody>
+      </table>
+    </div>
+
+    <div id="allUsers">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Bio</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody"></tbody>
+      </table>
+    </div>
+  </body>
 </html>
+
+<script src="scripts/postanalytics.js" type="module"></script>
