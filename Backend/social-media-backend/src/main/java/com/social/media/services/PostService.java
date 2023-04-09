@@ -3,6 +3,7 @@ package com.social.media.services;
 import java.util.List;
 
 import com.social.media.dtos.PostDTO;
+import com.social.media.dtos.UserDTO;
 import com.social.media.exceptions.NoRecordFoundException;
 
 public interface PostService {
@@ -90,4 +91,13 @@ public interface PostService {
 	 */
 	public List<PostDTO> getTopMostLikedPost() throws NoRecordFoundException;
 
+	/**
+	 * 
+	 * @param postId: To search post as per given Id.
+	 * @return: UserDTO which is associated to that post.
+	 * @throws NoRecordFoundException: If post does not found or user not assigned
+	 *                                 to post then will throw
+	 *                                 NoRecordFoundException.
+	 */
+	public UserDTO getUserByPostId(Integer postId) throws NoRecordFoundException;
 }

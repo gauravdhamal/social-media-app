@@ -109,6 +109,7 @@ let commonUrl = "http://localhost:8888/";
   };
 }
 
+// Get all users
 {
   async function main() {
     let data = await getAllUsers();
@@ -149,13 +150,19 @@ let commonUrl = "http://localhost:8888/";
       bioCell.textContent = user.bio;
       row.appendChild(bioCell);
 
-      const createdAtCell = document.createElement("td");
-      createdAtCell.textContent = user.created_at;
-      row.appendChild(createdAtCell);
+      const viewCell = document.createElement("td");
+      const openButton = document.createElement("button");
+      openButton.textContent = "Open";
+      viewCell.appendChild(openButton);
+      row.appendChild(viewCell);
 
-      const updatedAtCell = document.createElement("td");
-      updatedAtCell.textContent = user.updated_at || "-";
-      row.appendChild(updatedAtCell);
+      const actionCell = document.createElement("td");
+      const editButton = document.createElement("button");
+      editButton.textContent = "Edit";
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      actionCell.append(editButton, " / ", deleteButton);
+      row.appendChild(actionCell);
 
       userTableBody.appendChild(row);
     });

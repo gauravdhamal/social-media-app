@@ -107,6 +107,7 @@ let commonUrl = "http://localhost:8888/";
   };
 }
 
+// Get all posts
 {
   async function main() {
     let data = await getAllPosts();
@@ -118,10 +119,12 @@ let commonUrl = "http://localhost:8888/";
   // Get all posts
   async function getAllPosts() {
     let response = await fetch(commonUrl + `analytics/posts`);
+    let data = await response.json();
+    console.log("data:", data);
     if (response.status == 200) {
-      let data = await response.json();
-      console.log("data:", data);
       return data;
+    } else {
+      console.log(response);
     }
   }
 
@@ -139,17 +142,31 @@ let commonUrl = "http://localhost:8888/";
       contentCell.textContent = post.content;
       row.appendChild(contentCell);
 
-      const createdAtCell = document.createElement("td");
-      createdAtCell.textContent = post.created_at;
-      row.appendChild(createdAtCell);
-
-      const updatedAtCell = document.createElement("td");
-      updatedAtCell.textContent = post.updated_at || "-";
-      row.appendChild(updatedAtCell);
-
       const likesCell = document.createElement("td");
       likesCell.textContent = post.likes;
       row.appendChild(likesCell);
+
+      const viewCell = document.createElement("td");
+      const viewUserButton = document.createElement("button");
+      viewUserButton.textContent = "Get User";
+      viewCell.append(viewUserButton);
+      row.appendChild(viewCell);
+
+      const actionCell = document.createElement("td");
+      const editButton = document.createElement("button");
+      editButton.textContent = "Edit";
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      actionCell.append(editButton, " / ", deleteButton);
+      row.appendChild(actionCell);
+
+      const likeUnlikeCell = document.createElement("td");
+      const likeButton = document.createElement("button");
+      likeButton.textContent = "Like";
+      const unlikeButton = document.createElement("button");
+      unlikeButton.textContent = "Unlike";
+      likeUnlikeCell.append(likeButton, " / ", unlikeButton);
+      row.appendChild(likeUnlikeCell);
 
       postTableBody.appendChild(row);
     });

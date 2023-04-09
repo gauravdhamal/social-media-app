@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.social.media.comparators.PostComparator;
 import com.social.media.dtos.PostDTO;
+import com.social.media.dtos.UserDTO;
 import com.social.media.exceptions.NoRecordFoundException;
 import com.social.media.models.Post;
 import com.social.media.models.User;
@@ -31,6 +32,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PostDTO createPost(PostDTO postDTO) {
 		Post post = modelMapper.map(postDTO, Post.class);
+		post.setLikes(0);
 		post = postRepository.save(post);
 		postDTO = modelMapper.map(post, PostDTO.class);
 		return postDTO;
@@ -86,8 +88,12 @@ public class PostServiceImpl implements PostService {
 	public String incrementLikesByPostId(Integer postId) throws NoRecordFoundException {
 		Post post = postRepository.findById(postId)
 				.orElseThrow(() -> new NoRecordFoundException("Post not found with Id : " + postId));
-		post.setLikes(post.getLikes() + 1);
-		post = postRepository.save(post);
+		if (post.getLikes() == null)
+			post.setLikes(1);
+		else {
+			post.setLikes(post.getLikes() + 1);
+			post = postRepository.save(post);
+		}
 		return "Likes incremented by 1. Total likes : " + post.getLikes();
 	}
 
@@ -136,6 +142,18 @@ public class PostServiceImpl implements PostService {
 				limit--;
 			}
 			return postDTOs;
+		}
+	}
+
+	@Override
+	public UserDTO getUserByPostId(Integer postId) throws NoRecordFoundException {
+		Post post = postRepository.findById(postId)
+				.orElseThrow(() -> new NoRecordFoundException("Post not found with Id : " + postId));
+		if (post.getUser() == null) {
+			throw new NoRecordFoundException("No any user registered with post : " + postId);
+		} else {
+			UserDTO userDTO = modelMapper.map(post, UserDTO.class);
+			return userDTO;
 		}
 	}
 

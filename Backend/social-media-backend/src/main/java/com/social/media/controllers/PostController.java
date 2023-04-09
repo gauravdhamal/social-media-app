@@ -2,6 +2,7 @@ package com.social.media.controllers;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.social.media.dtos.PostDTO;
+import com.social.media.dtos.UserDTO;
 import com.social.media.exceptions.NoRecordFoundException;
 import com.social.media.services.PostService;
 
@@ -79,10 +81,17 @@ public class PostController {
 		return new ResponseEntity<List<PostDTO>>(postDTOs, HttpStatus.OK);
 	}
 
-	@GetMapping("//analytics/posts/top-liked")
+	@GetMapping("/analytics/posts/top-liked")
 	public ResponseEntity<List<PostDTO>> getTopMostLikedPost() throws NoRecordFoundException {
 		List<PostDTO> postDTOs = postService.getTopMostLikedPost();
 		return new ResponseEntity<List<PostDTO>>(postDTOs, HttpStatus.OK);
+	}
+
+	@GetMapping("/posts/user/{postId}")
+	public ResponseEntity<UserDTO> getUserByPostId(@PathVariable("postId") Integer postId)
+			throws NoRecordFoundException {
+		UserDTO userDTO = postService.getUserByPostId(postId);
+		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
 
 }
