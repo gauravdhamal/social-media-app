@@ -21,7 +21,7 @@ import com.social.media.services.PostService;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class PostController {
 
 	@Autowired
