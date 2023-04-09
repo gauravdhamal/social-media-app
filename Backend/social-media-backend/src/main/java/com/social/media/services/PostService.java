@@ -100,4 +100,13 @@ public interface PostService {
 	 *                                 NoRecordFoundException.
 	 */
 	public UserDTO getUserByPostId(Integer postId) throws NoRecordFoundException;
+
+	/**
+	 * 
+	 * @param userId: To find all posts which belongs particular user.
+	 * @return: List<PostDTO> contains list of all posts belongs to particular user.
+	 * @throws NoRecordFoundException: If no any post found then will throw
+	 *                                 NoRecordFoundException.
+	 */
+	public List<PostDTO> getAllPostsByUserId(Integer userId) throws NoRecordFoundException;
 }

@@ -93,4 +93,11 @@ public class PostController {
 		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
 
+	@GetMapping("/posts/users/{userId}")
+	public ResponseEntity<List<PostDTO>> getAllPostsByUserId(@PathVariable("userId") Integer userId)
+			throws NoRecordFoundException {
+		List<PostDTO> postDTOs = postService.getAllPostsByUserId(userId);
+		return new ResponseEntity<List<PostDTO>>(postDTOs, HttpStatus.OK);
+	}
+
 }

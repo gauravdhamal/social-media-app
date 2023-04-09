@@ -49,6 +49,7 @@ let commonUrl = "http://localhost:8888/";
           window.alert(`Username already exist try with another one.`);
         } else {
           window.alert(`User created with Id : ${savedUserObject.id}`);
+          main();
         }
         userPostForm.reset();
       })
@@ -57,141 +58,167 @@ let commonUrl = "http://localhost:8888/";
 }
 
 // Update user data
-{
-  let userUpdateForm = document.getElementById("userUpdateForm");
+let userUpdateForm = document.getElementById("userUpdateForm");
 
-  userUpdateForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+userUpdateForm.addEventListener("submit", (event) => {
+  event.preventDefault();
 
-    let formData = new FormData(event.target);
+  let formData = new FormData(event.target);
 
-    let id = formData.get("id");
-    let updatedName = formData.get("name");
-    let updatedBio = formData.get("bio");
+  let id = formData.get("id");
+  let updatedName = formData.get("name");
+  let updatedBio = formData.get("bio");
 
-    let userObject = {
-      id: 0,
-      name: "someContent",
-      bio: "someBio",
-    };
-
-    userObject.id = id;
-    userObject.name = updatedName;
-    userObject.bio = updatedBio;
-
-    console.log("userObject:", userObject);
-
-    updateUser(userObject);
-  });
-
-  let updateUser = (userObject) => {
-    const options = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/Json",
-      },
-      body: JSON.stringify(userObject),
-    };
-
-    fetch(commonUrl + `users/${userObject.id}`, options)
-      .then((response) => response.json())
-      .then((updatedUserObject) => {
-        if (updatedUserObject.description == "Validation error") {
-          window.alert(updatedUserObject.details);
-        } else if (
-          updatedUserObject.description == `uri=/users/${userObject.id}`
-        ) {
-          window.alert(`User not found with Id : ${userObject.id}`);
-        } else {
-          window.alert(`User updated.`);
-        }
-      });
+  let userObject = {
+    id: 0,
+    name: "someContent",
+    bio: "someBio",
   };
-}
+
+  userObject.id = id;
+  userObject.name = updatedName;
+  userObject.bio = updatedBio;
+
+  console.log("userObject:", userObject);
+
+  updateUser(userObject);
+});
+
+let updateUser = (userObject) => {
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/Json",
+    },
+    body: JSON.stringify(userObject),
+  };
+
+  fetch(commonUrl + `users/${userObject.id}`, options)
+    .then((response) => response.json())
+    .then((updatedUserObject) => {
+      if (updatedUserObject.description == "Validation error") {
+        window.alert(updatedUserObject.details);
+      } else if (
+        updatedUserObject.description == `uri=/users/${userObject.id}`
+      ) {
+        window.alert(`User not found with Id : ${userObject.id}`);
+      } else {
+        window.alert(`User updated.`);
+      }
+    });
+};
 
 // Get all users
-{
-  async function main() {
-    let data = await getAllUsers();
-    appendUsers(data);
+async function main() {
+  let data = await getAllUsers();
+  appendUsers(data);
+}
+
+main();
+
+// Get all users
+async function getAllUsers() {
+  let response = await fetch(commonUrl + `analytics/users`);
+  if (response.status == 200) {
+    let data = await response.json();
+    return data;
   }
+}
 
-  main();
+let appendUsers = (arrayOfUsers) => {
+  let userTableBody = document.getElementById("userTableBody");
+  userTableBody.innerHTML = "";
+  arrayOfUsers.forEach((user) => {
+    const row = document.createElement("tr");
 
-  // Get all users
-  async function getAllUsers() {
-    let response = await fetch(commonUrl + `analytics/users`);
-    if (response.status == 200) {
-      let data = await response.json();
-      console.log("data:", data);
-      return data;
-    }
-  }
+    const idCell = document.createElement("td");
+    idCell.textContent = user.id;
+    row.appendChild(idCell);
 
-  let appendUsers = (arrayOfUsers) => {
-    let userTableBody = document.getElementById("userTableBody");
-    userTableBody.innerHTML = "";
-    arrayOfUsers.forEach((user) => {
-      const row = document.createElement("tr");
+    const nameCell = document.createElement("td");
+    nameCell.textContent = user.name;
+    row.appendChild(nameCell);
 
-      const idCell = document.createElement("td");
-      idCell.textContent = user.id;
-      row.appendChild(idCell);
+    const emailCell = document.createElement("td");
+    emailCell.textContent = user.email;
+    row.appendChild(emailCell);
 
-      const nameCell = document.createElement("td");
-      nameCell.textContent = user.name;
-      row.appendChild(nameCell);
+    const bioCell = document.createElement("td");
+    bioCell.textContent = user.bio;
+    row.appendChild(bioCell);
 
-      const emailCell = document.createElement("td");
-      emailCell.textContent = user.email;
-      row.appendChild(emailCell);
-
-      const bioCell = document.createElement("td");
-      bioCell.textContent = user.bio;
-      row.appendChild(bioCell);
-
-      const viewCell = document.createElement("td");
-      const openButton = document.createElement("button");
-      openButton.textContent = "Open";
-      viewCell.appendChild(openButton);
-      row.appendChild(viewCell);
-
-      const actionCell = document.createElement("td");
-      const editButton = document.createElement("button");
-      editButton.textContent = "Edit";
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
-      actionCell.append(editButton, " / ", deleteButton);
-      row.appendChild(actionCell);
-      editButton.addEventListener("click", () => {
-        console.log("Edit button clicked");
+    const viewCell = document.createElement("td");
+    const viewPostsButton = document.createElement("button");
+    viewPostsButton.textContent = "Open";
+    viewCell.appendChild(viewPostsButton);
+    row.appendChild(viewCell);
+    viewPostsButton.addEventListener("click", () => {
+      let userId = idCell.textContent;
+      getAllPostsByUserId(userId).then((data) => {
+        console.log("data:", data);
       });
+    });
 
-      deleteButton.addEventListener("click", () => {
+    const actionCell = document.createElement("td");
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    actionCell.append(editButton, " / ", deleteButton);
+    row.appendChild(actionCell);
+    editButton.addEventListener("click", () => {
+      let userId = idCell.textContent;
+      getUserById(userId).then((user) => {
+        console.log("user:", user);
+      });
+    });
+
+    deleteButton.addEventListener("click", () => {
+      const confirmed = confirm(
+        "Are you sure you want to delete this item? All the users posts also be deleted."
+      );
+      if (confirmed) {
         let userId = idCell.textContent;
         deleteUserById(userId).then((message) => {
-          console.log("message:", message);
           window.alert(message);
           main();
         });
-      });
-
-      userTableBody.appendChild(row);
+      }
     });
-  };
 
-  async function deleteUserById(userId) {
-    let response = await fetch(commonUrl + `users/${userId}`, {
-      method: "DELETE",
-    });
-    if (response.status == 200) {
-      let data = await response.text();
-      return data;
-    } else {
-      let data = await response.json();
-      window.alert(data.details);
-    }
+    userTableBody.appendChild(row);
+  });
+};
+
+async function deleteUserById(userId) {
+  let response = await fetch(commonUrl + `users/${userId}`, {
+    method: "DELETE",
+  });
+  if (response.status == 200) {
+    let data = await response.text();
+    return data;
+  } else {
+    let data = await response.json();
+    window.alert(data.details);
   }
+}
 
-  async function getAllPostsByUserId(userId) {}
+async function getAllPostsByUserId(userId) {
+  let response = await fetch(commonUrl + `posts/users/${userId}`);
+  let data = await response.json();
+  if (response.status == 200) {
+    return data;
+  } else {
+    window.alert(data.details);
+  }
+}
+
+async function getUserById(userId) {
+  let response = await fetch(commonUrl + `users/${userId}`);
+  let data = await response.json();
+  if (response.status == 200) {
+    return data;
+  } else {
+    window.alert(data.details);
+  }
 }

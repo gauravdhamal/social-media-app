@@ -158,4 +158,19 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 
+	@Override
+	public List<PostDTO> getAllPostsByUserId(Integer userId) throws NoRecordFoundException {
+		List<Post> posts = postRepository.getPostsByUserId(userId);
+		if (posts.isEmpty()) {
+			throw new NoRecordFoundException("No any post belongs to user : " + userId);
+		} else {
+			List<PostDTO> postDTOs = new ArrayList<>();
+			for (Post post : posts) {
+				PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+				postDTOs.add(postDTO);
+			}
+			return postDTOs;
+		}
+	}
+
 }
