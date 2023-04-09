@@ -20,10 +20,41 @@
             name="content"
             id="content"
             placeholder="Write your content..."
+            required
           />
         </div>
 
         <div><input type="submit" value="Create" /></div>
+      </form>
+    </div>
+
+    <div id="updatePost">
+      <form id="postUpdateForm">
+        <div>
+          <label for="id">Id : </label>
+          <input
+            type="number"
+            name="id"
+            id="id"
+            placeholder="Enter Post ID"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="content">Updated Content : </label>
+          <input
+            type="text"
+            name="content"
+            id="content"
+            placeholder="Write your updated content..."
+            required
+          />
+        </div>
+
+        <div>
+          <input type="submit" value="Update" />
+        </div>
       </form>
     </div>
   </body>
