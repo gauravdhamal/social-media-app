@@ -108,3 +108,56 @@ let commonUrl = "http://localhost:8888/";
       });
   };
 }
+
+{
+  async function main() {
+    let data = await getAllUsers();
+    appendUsers(data);
+  }
+
+  main();
+
+  // Get all users
+  async function getAllUsers() {
+    let response = await fetch(commonUrl + `analytics/users`);
+    if (response.status == 200) {
+      let data = await response.json();
+      console.log("data:", data);
+      return data;
+    }
+  }
+
+  let appendUsers = (arrayOfUsers) => {
+    let userTableBody = document.getElementById("userTableBody");
+    userTableBody.innerHTML = "";
+    arrayOfUsers.forEach((user) => {
+      const row = document.createElement("tr");
+
+      const idCell = document.createElement("td");
+      idCell.textContent = user.id;
+      row.appendChild(idCell);
+
+      const nameCell = document.createElement("td");
+      nameCell.textContent = user.name;
+      row.appendChild(nameCell);
+
+      const emailCell = document.createElement("td");
+      emailCell.textContent = user.email;
+      row.appendChild(emailCell);
+
+      const bioCell = document.createElement("td");
+      bioCell.textContent = user.bio;
+      row.appendChild(bioCell);
+
+      const createdAtCell = document.createElement("td");
+      createdAtCell.textContent = user.created_at;
+      row.appendChild(createdAtCell);
+
+      const updatedAtCell = document.createElement("td");
+      updatedAtCell.textContent = user.updated_at || "-";
+      row.appendChild(updatedAtCell);
+
+      userTableBody.appendChild(row);
+    });
+  };
+}

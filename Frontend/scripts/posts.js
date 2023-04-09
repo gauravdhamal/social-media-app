@@ -106,3 +106,52 @@ let commonUrl = "http://localhost:8888/";
       .catch((error) => console.error("error : ", error));
   };
 }
+
+{
+  async function main() {
+    let data = await getAllPosts();
+    appendPosts(data);
+  }
+
+  main();
+
+  // Get all posts
+  async function getAllPosts() {
+    let response = await fetch(commonUrl + `analytics/posts`);
+    if (response.status == 200) {
+      let data = await response.json();
+      console.log("data:", data);
+      return data;
+    }
+  }
+
+  let appendPosts = (arrayOfPosts) => {
+    let postTableBody = document.getElementById("postTableBody");
+    postTableBody.innerHTML = "";
+    arrayOfPosts.forEach((post) => {
+      const row = document.createElement("tr");
+
+      const idCell = document.createElement("td");
+      idCell.textContent = post.id;
+      row.appendChild(idCell);
+
+      const contentCell = document.createElement("td");
+      contentCell.textContent = post.content;
+      row.appendChild(contentCell);
+
+      const createdAtCell = document.createElement("td");
+      createdAtCell.textContent = post.created_at;
+      row.appendChild(createdAtCell);
+
+      const updatedAtCell = document.createElement("td");
+      updatedAtCell.textContent = post.updated_at || "-";
+      row.appendChild(updatedAtCell);
+
+      const likesCell = document.createElement("td");
+      likesCell.textContent = post.likes;
+      row.appendChild(likesCell);
+
+      postTableBody.appendChild(row);
+    });
+  };
+}
