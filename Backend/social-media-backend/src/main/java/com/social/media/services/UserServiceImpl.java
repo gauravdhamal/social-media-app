@@ -101,6 +101,7 @@ public class UserServiceImpl implements UserService {
 				if (limit == 0)
 					break;
 				UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+				userDTO.setTotalPosts(user.getPosts().size());
 				userDTOs.add(userDTO);
 				limit--;
 			}

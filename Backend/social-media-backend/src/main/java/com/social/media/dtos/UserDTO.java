@@ -35,5 +35,8 @@ public class UserDTO {
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private LocalDateTime updated_at;
+	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Integer totalPosts;
 
 }
