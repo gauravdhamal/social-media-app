@@ -2,7 +2,8 @@
 
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 90%;
+  margin: auto;
 }
 
 th,
@@ -15,6 +16,24 @@ td {
 th {
   background-color: #f2f2f2;
   color: #333;
+}
+
+.tableButton {
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: teal;
+  border: 1px solid teal;
+  color: white;
+  cursor: pointer;
+}
+
+#tableInput {
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 120px;
 }
 
 /* Post/User analytics page CSS start */

@@ -178,6 +178,7 @@ let appendUsers = (arrayOfUsers) => {
 
     const viewCell = document.createElement("td");
     const viewPostsButton = document.createElement("button");
+    viewPostsButton.setAttribute("class", "tableButton");
     viewPostsButton.textContent = "Open";
     viewCell.appendChild(viewPostsButton);
     row.appendChild(viewCell);
@@ -190,9 +191,15 @@ let appendUsers = (arrayOfUsers) => {
 
     const actionCell = document.createElement("td");
     const editButton = document.createElement("button");
+    editButton.setAttribute("class", "tableButton");
     editButton.textContent = "Edit";
+    editButton.style.backgroundColor = "green";
+    editButton.style.border = "green";
     const deleteButton = document.createElement("button");
+    deleteButton.setAttribute("class", "tableButton");
     deleteButton.textContent = "Delete";
+    deleteButton.style.backgroundColor = "red";
+    deleteButton.style.border = "red";
     actionCell.append(editButton, " / ", deleteButton);
     row.appendChild(actionCell);
     editButton.addEventListener("click", () => {
