@@ -12,42 +12,75 @@
         display: flex;
         flex-direction: column;
       }
+
+      #createUserDiv,
+      #updateUserDiv {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <div id="navbar"></div>
 
-    <div id="createUser">
-      <form id="userPostForm" class="postForm">
-        <div>
-          <label for="name">Name : </label>
-          <input type="text" name="name" id="name" placeholder="Enter Name" />
+    <div class="createupdatebuttons">
+      <button id="createUserButton">Create User</button>
+      <button id="updateUserButton">Update User</button>
+    </div>
+
+    <div id="createUserDiv">
+      <form id="userPostForm" class="forms">
+        <div class="formHeader">
+          <h1>Create User</h1>
+          <button id="closeCreateUser">X</button>
         </div>
 
-        <div>
+        <div class="formBody">
+          <label for="name">Name : </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Enter Name"
+            required
+          />
+        </div>
+
+        <div class="formBody">
           <label for="email">Email : </label>
           <input
             type="text"
             name="email"
             id="email"
             placeholder="Enter Email"
+            required
+          />
+        </div>
+
+        <div class="formBody">
+          <label for="bio">Bio : </label>
+          <input
+            type="text"
+            name="bio"
+            id="bio"
+            placeholder="Enter Bio"
+            required
           />
         </div>
 
         <div>
-          <label for="bio">Bio : </label>
-          <input type="text" name="bio" id="bio" placeholder="Enter Bio" />
-        </div>
-
-        <div>
-          <input type="submit" value="Create" />
+          <input class="formsInput" type="submit" value="Create" />
         </div>
       </form>
     </div>
 
-    <div id="updateUser">
-      <form id="userUpdateForm">
-        <div>
+    <div id="updateUserDiv">
+      <form id="userUpdateForm" class="forms">
+        <div class="formHeader">
+          <h1>Update User</h1>
+          <button id="closeUpdateUser">X</button>
+        </div>
+
+        <div class="formBody">
           <label for="id">Id : </label>
           <input
             type="number"
@@ -58,7 +91,7 @@
           />
         </div>
 
-        <div>
+        <div class="formBody">
           <label for="name">Name : </label>
           <input
             type="text"
@@ -69,7 +102,7 @@
           />
         </div>
 
-        <div>
+        <div class="formBody">
           <label for="bio">Bio : </label>
           <input
             type="text"
@@ -81,7 +114,7 @@
         </div>
 
         <div>
-          <input type="submit" value="Update" />
+          <input class="formsInput" type="submit" value="Update" />
         </div>
       </form>
     </div>

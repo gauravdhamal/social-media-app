@@ -7,12 +7,28 @@
     <link rel="stylesheet" href="styles/index.css" />
     <link rel="stylesheet" href="styles/navbar.css" />
     <title>Posts page</title>
+    <style>
+      #createPostDiv,
+      #updatePostDiv {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div id="navbar"></div>
 
-    <div id="createPost">
-      <form id="postPostForm" class="postForm">
+    <div class="createupdatebuttons">
+      <button id="createPostButton">Create Post</button>
+      <button id="updatePostButton">Update Post</button>
+    </div>
+
+    <div id="createPostDiv">
+      <form id="postPostForm" class="forms">
+        <div class="formHeader">
+          <h1>Create Post</h1>
+          <button id="closeCreatePost">X</button>
+        </div>
+
         <div>
           <label for="content">Content : </label>
           <input
@@ -24,13 +40,18 @@
           />
         </div>
 
-        <div><input type="submit" value="Create" /></div>
+        <div><input class="formsInput" type="submit" value="Create" /></div>
       </form>
     </div>
 
-    <div id="updatePost">
-      <form id="postUpdateForm">
-        <div>
+    <div id="updatePostDiv">
+      <form id="postUpdateForm" class="forms">
+        <div class="formHeader">
+          <h1>Update Post</h1>
+          <button id="closeUpdatePost">X</button>
+        </div>
+
+        <div class="formBody">
           <label for="id">Id : </label>
           <input
             type="number"
@@ -41,7 +62,7 @@
           />
         </div>
 
-        <div>
+        <div class="formBody">
           <label for="content">Updated Content : </label>
           <input
             type="text"
@@ -53,7 +74,7 @@
         </div>
 
         <div>
-          <input type="submit" value="Update" />
+          <input class="formsInput" type="submit" value="Update" />
         </div>
       </form>
     </div>
@@ -68,6 +89,7 @@
             <th>View</th>
             <th>Action</th>
             <th>Like/Unlike</th>
+            <th>Add User</th>
           </tr>
         </thead>
         <tbody id="postTableBody"></tbody>

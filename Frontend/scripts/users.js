@@ -4,6 +4,35 @@ document.getElementById("navbar").innerHTML = navbar();
 
 let commonUrl = "http://localhost:8888/";
 
+// Create/Update open close function start
+let createUserButton = document.getElementById("createUserButton");
+let updateUserButton = document.getElementById("updateUserButton");
+
+let createUserDiv = document.getElementById("createUserDiv");
+let updateUserDiv = document.getElementById("updateUserDiv");
+
+createUserButton.addEventListener("click", () => {
+  updateUserDiv.style.display = "none";
+  createUserDiv.style.display = "block";
+});
+
+updateUserButton.addEventListener("click", () => {
+  updateUserDiv.style.display = "block";
+  createUserDiv.style.display = "none";
+});
+
+let closeCreateUser = document.getElementById("closeCreateUser");
+let closeUpdateUser = document.getElementById("closeUpdateUser");
+
+closeCreateUser.addEventListener("click", () => {
+  createUserDiv.style.display = "none";
+});
+
+closeUpdateUser.addEventListener("click", () => {
+  updateUserDiv.style.display = "none";
+});
+// Create/Update open close function end
+
 // Create user data
 {
   let userPostForm = document.getElementById("userPostForm");
